@@ -11,7 +11,7 @@ public class UserController {
     public String getUser(){
         return "USERS FETCHED";
     }
-    
+
     @GetMapping("/{userId}")
     public String getUsers(@PathVariable String userId){
         return "HELLO USERS  " + userId ;
