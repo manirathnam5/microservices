@@ -19,8 +19,16 @@ public class CountryController {
     private CountryService countryService;
 
     @GetMapping("/getCountries")
-    public List<Country> getAllCountryies() {
-        return countryService.getAllCountry();
+    public ResponseEntity<List<Country>> getAllCountryies() {
+       // return countryService.getAllCountry();
+     try{
+         List<Country> countries = countryService.getAllCountry();
+         return new ResponseEntity<List<Country>>(countries,HttpStatus.OK);
+     }
+     catch (Exception e){
+         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+     }
+
     }
 
     @GetMapping("/getCountries/{id}")
@@ -80,15 +88,14 @@ public class CountryController {
         Country country = null;
 
         try {
-           // country = countryService.getCountryById(id);
+            // country = countryService.getCountryById(id);
             country = countryService.getCountryById(id);
             countryService.deleteCountry(country);
-        }
-        catch(NoSuchElementException noSuchElementException){
-            return  new ResponseEntity<>(HttpStatus.OK);
+        } catch (NoSuchElementException noSuchElementException) {
+            return new ResponseEntity<>(HttpStatus.OK);
 
         }
-        return  new ResponseEntity<Country>(country,HttpStatus.OK);
+        return new ResponseEntity<Country>(country, HttpStatus.OK);
     }
 
 
