@@ -21,15 +21,21 @@ public class CountryService {
 
 
     public List<Country> getAllCountry() {
-
         return countryRepo.findAll();
-
     }
 
 
     public Country getCountryById(int id) {
-        return countryRepo.findById(id).get();
+        List<Country> countries = countryRepo.findAll();
+        Country country = null;
 
+        for(Country con: countries){
+            if(con.getId() == id){
+                country = con;
+            }
+
+        }
+        return  country;
     }
 
     public Country getCountryByName(String countryByName) {
