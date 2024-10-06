@@ -70,12 +70,17 @@ public class CountryService {
         return country;
     }
 
-    public AddResponse deleteCountry(int id) {
+    /*public AddResponse deleteCountry(int id) {
         countryRepo.deleteById(id);
         AddResponse res = new AddResponse();
         res.setId(id);
         res.setMessage("Country deleted ...");
         return res;
+    }
+*/
+
+    public void deleteCountry(Country country){
+        countryRepo.delete(country);
     }
 
 }

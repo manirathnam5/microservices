@@ -81,7 +81,8 @@ public class CountryController {
 
         try {
            // country = countryService.getCountryById(id);
-            countryService.deleteCountry(id);
+            country = countryService.getCountryById(id);
+            countryService.deleteCountry(country);
         }
         catch(NoSuchElementException noSuchElementException){
             return  new ResponseEntity<>(HttpStatus.OK);
