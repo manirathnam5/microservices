@@ -56,8 +56,14 @@ public class CountryController {
 
 
     @PostMapping("/addcountry")
-    public Country addCountry(@RequestBody Country country) {
-        return countryService.addCountryName(country);
+    public ResponseEntity<Country> addCountry(@RequestBody Country country) {
+    try{
+        country = countryService.addCountryName(country);
+        return  new ResponseEntity<Country>(country,HttpStatus.CREATED);
+    }
+    catch (Exception e){
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
 
     }
 

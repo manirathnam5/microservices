@@ -21,7 +21,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
 @TestMethodOrder(MethodOrderer.class)
-@SpringBootTest(classes={CountryControllerTest.class} )
+@SpringBootTest(classes = {CountryControllerTest.class})
 public class CountryControllerTest {
 
     @Mock
@@ -35,55 +35,106 @@ public class CountryControllerTest {
     Country country;
 
 
-   @Test
-   @Order(1)
-   public void getAllCountryTest(){
+    @Test
+    @Order(1)
+    public void getAllCountryTest() {
 
-       myCountries = new ArrayList<>();
-       myCountries.add(new Country(1,"INDIA","DELHI"));
-       myCountries.add(new Country(2,"INDIA","DELHI"));
-       myCountries.add(new Country(3,"INDIA","DELHI"));
-
-
-       when(countryService.getAllCountry()).thenReturn(myCountries);
-       ResponseEntity<List<Country>> res = countryController.getAllCountryies();
-
-       assertEquals(HttpStatus.OK,res.getStatusCode());
-       assertEquals(3,res.getBody().size());
-
-   }
+        myCountries = new ArrayList<>();
+        myCountries.add(new Country(1, "INDIA", "DELHI"));
+        myCountries.add(new Country(2, "INDIA", "DELHI"));
+        myCountries.add(new Country(3, "INDIA", "DELHI"));
 
 
-   @Test
-   @Order(2)
-   public void testGetCountryById(){
+        when(countryService.getAllCountry()).thenReturn(myCountries);
+        ResponseEntity<List<Country>> res = countryController.getAllCountryies();
 
-     country = new Country(3,"USA","New York");
-     int countryId = 3;
+        assertEquals(HttpStatus.OK, res.getStatusCode());
+        assertEquals(3, res.getBody().size());
 
-     when(countryService.getCountryById(countryId)).thenReturn(country);
-
-     ResponseEntity<Country> res = countryController.getCountryById(countryId);
-
-     assertEquals(HttpStatus.OK,res.getStatusCode());
-     assertEquals(3,res.getBody().getId());
-
-   }
+    }
 
 
+    @Test
+    @Order(2)
+    public void testGetCountryById() {
 
-@Test
-@Order(3)
-public void testGetCountryByName() {
+        country = new Country(3, "USA", "New York");
+        int countryId = 3;
 
-     country = new Country(3, "USA", "New York");
-     String countryName = "USA";
+        when(countryService.getCountryById(countryId)).thenReturn(country);
 
-     when(countryService.getCountryByName(countryName)).thenReturn(country);
+        ResponseEntity<Country> res = countryController.getCountryById(countryId);
 
-     ResponseEntity<Country> res = countryController.getCountryByName(countryName);
+        assertEquals(HttpStatus.OK, res.getStatusCode());
+        assertEquals(3, res.getBody().getId());
 
-     assertEquals(HttpStatus.OK, res.getStatusCode());
-     assertEquals("USA", res.getBody().getCountryName());
-  }
+    }
+
+
+    @Test
+    @Order(3)
+    public void testGetCountryByName() {
+
+        country = new Country(3, "USA", "New York");
+        String countryName = "USA";
+
+        when(countryService.getCountryByName(countryName)).thenReturn(country);
+        ResponseEntity<Country> res = countryController.getCountryByName(countryName);
+        assertEquals(HttpStatus.OK, res.getStatusCode());
+        //System.out.println(res.getBody());
+        assertEquals("USA", res.getBody().getCountryName());
+    }
+
+
+    @Test
+    @Order(4)
+    public void testAddCountry() {
+
+        country = new Country(2, "England", "London");
+
+        when(countryService.addCountryName(country)).thenReturn(country);
+
+        ResponseEntity<Country> res = countryController.addCountry(country);
+
+        assertEquals(country, res.getBody());
+
+        assertEquals(HttpStatus.CREATED, res.getStatusCode());
+
+    }
+
+    @Test
+    @Order(5)
+    public void testUpdateCountry() {
+
+        country = new Country(3, "SouthAferica", "CapeTown");
+        int countryId = 3;
+
+        when(countryService.getCountryById(countryId)).thenReturn(country);
+
+        when(countryService.updateCountry(country)).thenReturn(country);
+
+        ResponseEntity<Country> res = countryController.updateCountry(countryId, country);
+
+        assertEquals(country, res.getBody());
+        assertEquals(HttpStatus.OK, res.getStatusCode());
+        assertEquals(3, res.getBody().getId());
+        assertEquals("SouthAferica", res.getBody().getCountryName());
+        assertEquals("CapeTown", res.getBody().getCapitalName());
+
+    }
+
+
+    @Test
+    @Order(6)
+    public void testdeleteCountry() {
+
+        country = new Country(3, "SouthAferica", "CapeTown");
+        int countryId = 3;
+
+        when(countryService.getCountryById(countryId)).thenReturn(country);
+        ResponseEntity<Country> res = countryController.deleteCountry(countryId);
+        assertEquals(HttpStatus.OK, res.getStatusCode());
+
+    }
+
 }
